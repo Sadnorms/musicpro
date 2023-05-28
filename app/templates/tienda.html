@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contenido %}
+<script>
+
+              $(function()
+          {
+          $('.btnUSD').click(function(){
+              alert("Pasando valores a Dolares");
+              let arr = $('.Price');
+              let clearArr = new Array();
+              for(let i = 0;i<arr.length;i++){
+                  let price = $(arr[i]).html();
+                  price = price.replace('$','');
+                  price = price.replace('.','');
+                  clearArr.push(price);
+              };
+              $.getJSON('https://mindicador.cl/api', function(data) {
+                  let dailyIndicators = data;
+                  let vUSD = (dailyIndicators.dolar.valor);
+                  let arrNewValues = new Array();
+                  for(let i = 0;i<arr.length;i++){
+                      arrNewValues.push('$'+(parseInt(clearArr[i])*vUSD/1000000).toFixed(2));
+                      $('.Price').text(arrNewValues[i]);
+                      arr[i].classList.replace('Price','newPrice');
+                  }
+                  }).fail(function() {
+                  console.log('Error al consumir la API!');  
+              });
+          })
+          $('.btnCLP').click(function(){
+              alert("pasando valores a Pesos Chilenos")
+              location.reload();
+          })
+          });
+          </script>
+<section class="py-5">
+      <div class="container px-4 px-lg-5 mt-5">
+              <!-- BOTON CLP TO USD -->
+              <div class="row offset-md-10">
+                <div class="col-md-5">
+                    <button class="btnCLP btn btn-outline-success">CLP</button>
+                </div>
+                <div class="col-md-3">
+                    <button class="btnUSD btn btn-outline-danger">USD</button>
+                </div>
+              </div>
+
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+              {% for p in productos %}
+              <div class="col-15 mb-5">  
+                <div class="card h-100">
+                  {% if p.imagen %}             
+                    <!-- Product image-->
+                    <a ><img src="{{ p.imagen.url }} " alt="{{ p.nombre }} , ${{ p.precio }}, {{ p.descripcion }}" width="210px" height="250px"></a>
+                    <div class="card-body p-4">
+                      <div class="text-center">
+                        <!-- Product name-->
+                        <h5 class="fw-bolder">{{ p.nombreProducto }}</h5>
+                        <!-- Product price-->
+                        <span class="Price">${{ p.precioProducto }}</span> 
+                        <br>
+                        <span class="text">{{ p.descripcionProducto }}</span> 
+                    </div>
+                  </div>
+                  
+                    <a href="#" class="btn btn-success btn-xs"  >AGREGAR AL CARRO</a>    
+                     
+                    {% endif %}    
+                  </div>             
+              </div>      
+                {% endfor %}
+        </div>
+      </div>
+      <br>
+      <br>
+</section>
+
+
+{% endblock %}

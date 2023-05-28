@@ -1,0 +1,82 @@
+{# Esto es un comentario #}
+{% extends "base.html" %}
+
+{# definir contenidos que tendrán cada uno de los bloques #}
+{% block script %} 
+<script src="/static/js/marca.js"></script>
+{% endblock %}
+{% block tituloPestana %} 
+    CRUD Marca
+{% endblock %}
+{% block tituloPagina %} 
+    <div class="text-center mt-5">
+        <h1>Registro de Marca</h1>
+    </div>
+{% endblock %}
+
+{% block mensajes %} 
+{% if mensaje %}
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+{% elif error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block contenido %} 
+<br>
+<form method="POST" action="{% url 'marca' %}">
+    {% csrf_token %} 
+<div class="row">
+    <div class="col-md-2 offset-md-2">Nombre</div>
+    <div class="col-md-5">
+        <input type="hidden"    name="txtId" value="{{ fila.id }}">
+        <input type="text"   id="txtNombre" name="txtNombre" class="txtNombre form-control" value="{{ fila.nombreMarca }}">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 offset-md-2">Activo</div>
+    <div class="col-md-5"><input type="checkbox" name="chkActivo" value="1" {% if fila.activoMarca %}{{ 'checked' }}{% endif %}></div>
+</div>
+<div class="row">
+    <div class="col-md-2 offset-md-2 mt-3">Opciones</div>
+    <div class="col-md-4">
+        <input type="submit" name="btnGrabar" class="btn btn-danger btnGrabar" value="Grabar">
+        <input type="submit" name="btnListar" class="btn btn-success btnListar" value="Listar">
+        <input type="reset" name="btnLimpiar" class="btn btn-outline-secondary btnLimpiar" value="Limpiar">
+    </div>
+    <div class="col-md-1">
+        <input type="submit" name="btnEliminar" class="btn btn-warning btnEliminar" value="Eliminar">
+    </div>
+</div>
+</form>
+{% endblock %}
+{% block listado %} 
+{% if listado %}
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <table class="table">
+                <tr>
+                    <th>id</th>
+                    <th>Nombre</th>
+                    <th>Activo</th>
+                    <th>Seleccionar</th>
+                </tr>
+    {% for fila in listado %}
+                <tr>
+                    <td>{{ fila.id }}</td>
+                    <td>{{ fila.nombreMarca }}</td>
+                    <td>{{ fila.activoMarca }}</td>
+                    <td><a href="{% url 'marca' %}/{{ fila.id }}/">Seleccionar</a></td>
+                </tr>
+    {% endfor %}
+            </table>
+        </div>
+    </div>
+    
+{% endif %}
+{% endblock %}

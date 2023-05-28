@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block script %} 
+<script src="/static/js/producto.js"></script>
+{% endblock %}
+{% block tituloPestana %} 
+    CRUD Producto
+{% endblock %}
+{% block tituloPagina %} 
+    <div class="text-center ">
+        <h1>Registro de Producto</h1>
+    </div>
+{% endblock %}
+
+{% block mensajes %} 
+{% if mensaje %}
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+{% elif error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+{% endif %}
+{% endblock %}
+{% block contenido %}
+
+<div class="row">
+<form action="" method="POST" enctype="multipart/form-data" >
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col-12 col-md-6 offset-md-4">
+                {% csrf_token %}
+                    {{ form | crispy }}
+            </div>
+        </div>
+    </div>
+<br>
+<br>
+        <div class="float-right col-12 col-md-6 offset-md-4">
+            <input type="submit" value="Grabar" class="btn btn-danger">
+            <input type="reset" value="Limpiar" class="btn btn-outline-secondary">
+            
+        </div>
+
+        {{  mensaje }}
+</form>
+</div>
+
+
+
+{% endblock %}
