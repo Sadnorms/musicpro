@@ -138,8 +138,81 @@ def crearProductoView(request):
     return render (request, 'crearProducto.html' , data )
 
 
-def tiendaView(request): 
+def productosView(request): 
     data = {
         'productos' : Producto.objects.all()
     }
-    return render (request, 'tienda.html', data)
+    return render (request, 'productos.html', data)
+
+def modificarProductoLeerView(request, id):
+    contexto = {}
+    try:
+        fila = Producto.objects.get(pk = id)
+        contexto = {'fila': fila}
+    except:
+        contexto = {'error': 'Item no encontrado'}
+    productCategories = Categoria.objects.all()
+    productBrand = Marca.objects.all()
+    contexto["productCategories"] = productCategories
+    contexto["productBrand"] = productBrand
+
+    return render(request, 'modificarProducto.html', contexto)
+
+def modificarProductoView(request):
+    contexto = {}
+    if request.method == 'POST':
+        # capturar datos del form
+        id = int("0" + request.POST["txtId"])
+        nombreProducto = request.POST["txtNombre"]
+        precioProducto = request.POST["txtPrecioProducto"]
+        stockProducto = request.POST["txtStockProducto"]
+        descripcionProducto = request.POST["txtDescripcion"]
+        categoriaProducto = request.POST["ctProducto"]
+        marcaProducto = request.POST["ctMarca"]
+        
+
+        # detectar que botón fue presionado
+        if 'btnGrabar' in request.POST:
+            if len(nombreProducto) < 5:
+                contexto = {'error': 'El nombre del producto debe tener como minimo 5 caracteres'}
+            elif len(precioProducto) < 3:
+                contexto = {'error': 'El  precio producto debe tener como minimo 3 caracteres'}
+            elif len(stockProducto) < 1:
+                contexto = {'error': 'El stock producto debe tener como minimo 1 caracteres'}
+            elif (categoriaProducto) == '0':
+                contexto = {'error': 'Debe seleccionar la marca del producto'}
+            elif (marcaProducto) == '0':
+                contexto = {'error': 'Debe seleccionar la marca del producto'}
+
+        
+            elif id < 1: # ORM Object relational Mapping
+                Producto.objects.create(nombreProducto = nombreProducto, precioProducto = precioProducto, stockProducto = stockProducto, descripcionProducto = descripcionProducto, categoriaProducto = categoriaProducto, marcaProducto = marcaProducto)
+                contexto = {'mensaje': 'Los datos fueron guardados'}  
+            else:
+                fila = Producto.objects.get(pk = id)
+                fila.nombreProducto = nombreProducto
+                fila.precioProducto = precioProducto
+                fila.stockProducto = stockProducto
+                fila.descripcionProducto = descripcionProducto
+                fila.categoriaProducto = categoriaProducto
+                fila.marcaProducto = marcaProducto
+                fila.save()     
+                contexto = {'mensaje': 'Los datos fueron guardados'}
+
+        elif 'btnListar' in request.POST:
+            listado = Producto.objects.all()
+            contexto = {'listado': listado }
+        elif 'btnEliminar' in request.POST:
+            try:
+                fila = Producto.objects.get(pk = id)
+                fila.delete()
+                contexto = {'mensaje': 'Los datos fueron eliminados'}
+            except:
+                contexto = {'error': 'Debe seleccionar item a eliminar'}
+
+    productCategories = Categoria.objects.all()
+    productBrand = Marca.objects.all()
+    contexto["productCategories"] = productCategories
+    contexto["productBrand"] = productBrand
+
+    return render(request, 'modificarProducto.html', contexto)

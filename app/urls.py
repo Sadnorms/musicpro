@@ -7,7 +7,10 @@ urlpatterns = [path('index', views.indexView, name="index"),
                path('marca/<int:id>/', views.marcaLeerView, name="marca"),
                path('categoria', views.categoriaView, name="categoria"),
                path('categoria/<int:id>/', views.categoriaLeerView, name="categoria"),
-                path('nuevo-producto/', views.crearProductoView,  name='crearProducto'),
-                path('tienda/', views.tiendaView,  name='tienda' ) ,]
+                path('crearProducto/', views.crearProductoView,  name='crearProducto'),
+                path('productos/', views.productosView,  name='productos' ) ,
+                path('modificarProducto', views.modificarProductoView, name="modificarProducto"),
+                path('modificarProducto/<int:id>/', views.modificarProductoLeerView, name="modificarProducto"),
+                ]
 
 

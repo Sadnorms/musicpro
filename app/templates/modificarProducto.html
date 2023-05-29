@@ -1,0 +1,141 @@
+{# Esto es un comentario #}
+{% extends "base.html" %}
+
+{# definir contenidos que tendrán cada uno de los bloques #}
+{% block script %} 
+<script src="/static/js/producto.js"></script>
+{% endblock %}
+{% block tituloPestana %} 
+    CRUD Producto
+{% endblock %}
+{% block tituloPagina %} 
+    <div class="text-center ">
+        <h1>Registro de Producto</h1>
+    </div>
+{% endblock %}
+
+{% block mensajes %} 
+{% if mensaje %}
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+{% elif error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+{% endif %}
+{% endblock %}
+
+{% block contenido %} 
+<br>
+<form method="POST" action="{% url 'modificarProducto' %}">
+    {% csrf_token %} 
+<div class="row ">
+    <div class="col-md-2 offset-md-2">Nombre<span class="text-danger">*</span></div>
+    <div class="col-md-5">
+        <input type="hidden"    name="txtId" value="{{ fila.id }}">
+        <input type="text"   id="txtNombre"   name="txtNombre" class="form-control txtNombre" value="{{ fila.nombreProducto }}">
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-2 offset-md-2">Precio<span class="text-danger">*</span></div>
+    <div class="col-md-5">
+        <input type="hidden"    name="txtId" value="{{ fila.id }}">
+        <input type="text"  id="txtPrecioProducto"     name="txtPrecioProducto" class="form-control txtPrecioProducto" value="{{ fila.precioProducto }}">
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-2 offset-md-2">Stock<span class="text-danger">*</span></div>
+    <div class="col-md-5">
+        <input type="hidden"    name="txtId" value="{{ fila.id }}">
+        <input type="text"   id="txtStockProducto"   name="txtStockProducto" class="form-control txtStockProducto" value="{{ fila.stockProducto }}">
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col-md-2 offset-md-2">Descripcion</div>
+    <div class="col-md-5">
+        <input type="hidden"    name="txtId" value="{{ fila.id }}">
+        <input type="text"   id="txtDescripcion"   name="txtDescripcion" class="form-control txtDescripcion" value="{{ fila.descripcionProducto }}">
+    </div>
+</div>
+
+<div class="row mt-2">
+
+    <div class="col-md-2 offset-md-2">Categoria Producto<span class="text-danger">*</span></div>
+    <div class="col-md-5">
+    <select name="ctProducto" class="ctProducto form-select" id="ctProducto" value="{{ fila.categoriaProducto }}">
+        <option selected class="ctProducto" hidden value="0">Seleccione una categoria</option>
+        {% if productCategories %}
+        {% for fila in productCategories %}
+        {% if fila.activoCategoria %}
+            <option value="{{fila.id}}">{{fila.nombreCategoria}}</option>
+        {% endif %}
+            {% endfor %}
+        {% endif %}
+    </select>
+    </div>
+
+
+<div class="row mt-2"></div>
+    <div class="col-md-2 offset-md-2">Marca Producto<span class="text-danger">*</span></div>
+    <div class="col-md-5">
+    <select selected name="ctMarca" class="ctMarca form-select" id="ctMarca" value="{{ fila.marcaProducto }}">
+        <option class="ctMarca" hidden value="0">Seleccione una marca</option>
+        {% if productBrand %}
+        {% for fila in productBrand %}
+        {% if fila.activoMarca %}
+            <option value="{{fila.id}}">{{fila.nombreMarca}}</option>
+        {% endif %}
+            {% endfor %}
+        {% endif %}
+    </select>
+    </div>
+</div>
+
+
+<div class="row mt-3">
+    <div class="col-md-2 offset-md-2 mt-3">Opciones</div>
+    <div class="col-md-4">
+        <!--
+        <input type="submit" id="btnGrabar" name="btnGrabar" class="btn btn-danger btnGrabar" value="Grabar">-->
+        <input type="submit" name="btnListar" class="btn btn-success btnListar" value="Listar">
+        <input type="reset" name="btnLimpiar" class="btn btn-outline-secondary btnLimpiar" value="Limpiar">
+    </div>
+    <div class="col-md-1">
+        <input type="submit" name="btnEliminar" class="btn btn-warning btnEliminar" value="Eliminar">
+    </div>
+</div>
+</form>
+{% endblock %}
+{% block listado %} 
+{% if listado %}
+    <div class="row mt-5">
+        <div class="col-12 table-responsive">
+            <table class="table">
+                <tr>
+                    <th>id</th>
+                    <th>Nombre</th>
+                    <th>Precio Producto</th>
+                    <th>Stock</th>
+                    <th>Descripcion</th>
+                    <th>Categoria</th>
+                    <th>Marca</th>
+                    <th>Seleccionar</th>
+                </tr>
+    {% for fila in listado %}
+                <tr>
+                    <td>{{ fila.id }}</td>
+                    <td>{{ fila.nombreProducto }}</td>
+                    <td>{{ fila.precioProducto }}</td>
+                    <td>{{ fila.stockProducto }}</td>
+                    <td>{{ fila.descripcionProducto }}</td>
+                    <td>{{ fila.categoriaProducto }}</td>
+                    <td>{{ fila.marcaProducto }}</td>
+                    <td><a href="{% url 'modificarProducto' %}/{{ fila.id }}/">Seleccionar</a></td>
+                </tr>
+    {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
