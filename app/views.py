@@ -138,11 +138,11 @@ def crearProductoView(request):
     return render (request, 'crearProducto.html' , data )
 
 
-def productosView(request): 
+def tiendaView(request): 
     data = {
         'productos' : Producto.objects.all()
     }
-    return render (request, 'productos.html', data)
+    return render (request, 'tienda.html', data)
 
 def modificarProductoLeerView(request, id):
     contexto = {}
