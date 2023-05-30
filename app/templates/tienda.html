@@ -35,9 +35,9 @@
           });
           </script>
 <section class="py-5">
-      <div class="container px-4 px-lg-5 mt-5">
+      <div class="container px-4 px-lg-5 mt-4 ">
               <!-- BOTON CLP TO USD -->
-              <div class="row offset-md-10">
+              <div class="row offset-md-10 mb-3">
                 <div class="col-md-5">
                     <button class="btnCLP btn btn-outline-success">CLP</button>
                 </div>
@@ -52,7 +52,7 @@
                 <div class="card h-100">
                   {% if p.imagen %}             
                     <!-- Product image-->
-                    <a ><img src="{{ p.imagen.url }} " alt="{{ p.nombre }} , ${{ p.precio }}, {{ p.descripcion }}" width="210px" height="250px"></a>
+                    <center><a><img src="{{ p.imagen.url }} " alt="{{ p.nombre }} , ${{ p.precio }}, {{ p.descripcion }}" width="210px" height="250px"></a></center>
                     <div class="card-body p-4">
                       <div class="text-center">
                         <!-- Product name-->
@@ -64,7 +64,7 @@
                     </div>
                   </div>
                   
-                    <a href="{% url 'Add' p.id %}" class="btn btn-success btn-xs"  >AGREGAR AL CARRO</a>    
+                    <a href="{% url 'Add' p.id %}" class="btn btn-dark btn-xs"  >AGREGAR AL CARRO</a>    
                      
                     {% endif %}    
                   </div>             

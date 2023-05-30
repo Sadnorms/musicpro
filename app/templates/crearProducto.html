@@ -34,15 +34,20 @@
                 {% csrf_token %}
                     {{ form | crispy }}
             </div>
+        
+        
+            <div class="float-right col-12 col-md-6 offset-md-4 mb-3 mt-3">
+                <input type="submit" value="Grabar" class="btn btn-danger">
+                <input type="reset" value="Limpiar" class="btn btn-outline-secondary">
+                
+            </div>
         </div>
+
+
+        
     </div>
-<br>
-<br>
-        <div class="float-right col-12 col-md-6 offset-md-4">
-            <input type="submit" value="Grabar" class="btn btn-danger">
-            <input type="reset" value="Limpiar" class="btn btn-outline-secondary">
-            
-        </div>
+
+
 
         {{  mensaje }}
 </form>
