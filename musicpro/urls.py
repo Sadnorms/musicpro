@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.indexView, name="index"),
     path('registrar/', views.registro_usuario, name="registrar"),
+    path('api/', include('api.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('app/', include('app.urls')),
     path('add/<int:producto_id>/', agregar_producto, name="Add"),
